@@ -2,8 +2,8 @@
 # # Script     : Perl::Modern::Perl                                            #
 # # -------------------------------------------------------------------------- #
 # # Copyright  : Frei unter GNU General Public License  bzw.  Artistic License #
-# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.000 #
-# # Version    : 1.000                                             15.Dez.2015 #
+# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.002 #
+# # Version    : 1.002                                             17.Dez.2015 #
 # # -------------------------------------------------------------------------- #
 # # Function   : Lädt alle Features der aktuellen benutzten Perl-Version.      #
 # # -------------------------------------------------------------------------- #
@@ -19,7 +19,7 @@
 # #              Perl::Version                          ActivePerl-REPO-Module #
 # ##############################################################################
 
-package Perl::Modern::Perl 1.000;
+package Perl::Modern::Perl 1.002;
 
 # ##############################################################################
 
@@ -203,7 +203,7 @@ Perl::Modern::Perl - Loads all features of the current used version of Perl.
 
 =head1 VERSION
 
-This document describes Perl::Modern::Perl version 1.000
+This document describes Perl::Modern::Perl version 1.002
 
 
 =head1 SYNOPSIS
@@ -294,7 +294,7 @@ The following pragmas and modules are required:
 
 =head1 INCOMPATIBILITIES
 
-The module works with Perl version 5.10 and higher.
+The module works with Perl version 5.10, 5.12, 5.14, 5.16, 5.18, 5.20 and 5.22.
 Development versions of PERL are not supported.
 
 
