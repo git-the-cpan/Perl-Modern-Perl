@@ -2,8 +2,8 @@
 # # Script     : Perl::Modern::Perl                                            #
 # # -------------------------------------------------------------------------- #
 # # Copyright  : Frei unter GNU General Public License  bzw.  Artistic License #
-# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.002 #
-# # Version    : 1.002                                             17.Dez.2015 #
+# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.003 #
+# # Version    : 1.003                                             18.Dez.2015 #
 # # -------------------------------------------------------------------------- #
 # # Function   : Lädt alle Features der aktuellen benutzten Perl-Version.      #
 # # -------------------------------------------------------------------------- #
@@ -19,7 +19,7 @@
 # #              Perl::Version                          ActivePerl-REPO-Module #
 # ##############################################################################
 
-package Perl::Modern::Perl 1.002;
+package Perl::Modern::Perl 1.003;
 
 # ##############################################################################
 
@@ -94,12 +94,12 @@ sub import {
    my ( $actual_perl_version, $use_perl_version, $version_tag, $version_idx );
 
    # --- Aktuelle PERL-Version bestimmen und Feature-Tag bilden ----------------
-   if ( $OLD_PERL_VERSION =~ /^5[.]\d(\d\d)\d{3}$/smx ) {
+   if ( $PERL_VERSION =~ /^v5[.](\d\d).+$/smx ) {
       $actual_perl_version = "5.$1";
       $use_perl_version    = "5.0$1";
    }
    else {
-      confess "Version '$OLD_PERL_VERSION' not detected\n";
+      confess "Version '$PERL_VERSION' not detected\n";
    }
 
    # --- Versions-String pruefen und Feature-Tag bilden ------------------------
@@ -203,7 +203,7 @@ Perl::Modern::Perl - Loads all features of the current used version of Perl.
 
 =head1 VERSION
 
-This document describes Perl::Modern::Perl version 1.002
+This document describes Perl::Modern::Perl version 1.003
 
 
 =head1 SYNOPSIS

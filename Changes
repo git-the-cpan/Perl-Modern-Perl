@@ -7,3 +7,6 @@ Revision history for Perl-Modern-Perl
        Correction of the make-Scripts
        Makefile.P
        Build.PL
+
+1.003  Fri 18.Dez.2015 - 19:00
+       Changed determine the current version of Perl.
