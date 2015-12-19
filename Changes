@@ -14,3 +14,6 @@ Revision history for Perl-Modern-Perl
 
 1.004  Sam 19.Dez.2015 - 15:00
        Correcting the discharge of warnings.
+
+1.005  Sam 19.Dez.2015 - 20:26
+       Error message for developer version of Perl added.

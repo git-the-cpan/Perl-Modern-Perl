@@ -2,12 +2,12 @@
 # # Script     : Perl::Modern::Perl                                            #
 # # -------------------------------------------------------------------------- #
 # # Copyright  : Frei unter GNU General Public License  bzw.  Artistic License #
-# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.004 #
-# # Version    : 1.004                                             19.Dez.2015 #
+# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.005 #
+# # Version    : 1.005                                             19.Dez.2015 #
 # # -------------------------------------------------------------------------- #
 # # Function   : Lädt alle Features der aktuellen benutzten Perl-Version.      #
 # # -------------------------------------------------------------------------- #
-# # Language   : PERL 5                                (V) 5.10.xx  -  5.22.xx #
+# # Language   : PERL 5                                (V) 5.12.xx  -  5.22.xx #
 # # Coding     : ISO 8859-15 / Latin-9                         UNIX-Zeilenende #
 # # Standards  : Perl-Best-Practices                       severity 1 (brutal) #
 # # -------------------------------------------------------------------------- #
@@ -19,7 +19,7 @@
 # #              Perl::Version                          ActivePerl-REPO-Module #
 # ##############################################################################
 
-package Perl::Modern::Perl 1.004;
+package Perl::Modern::Perl 1.005;
 
 # ##############################################################################
 
@@ -68,7 +68,7 @@ our %WARNINGS = (
    bitwise         => [ qw( ---- ---- ---- ---- ---- ---- 5.22 ) ],
    const_attr      => [ qw( ---- ---- ---- ---- ---- ---- 5.22 ) ],
    lexical_subs    => [ qw( ---- ---- ---- ---- 5.18 5.20 5.22 ) ],
-   lexical_topic   => [ qw( 5.10 5.12 5.14 5.16 5.18 5.20 5.22 ) ],
+   lexical_topic   => [ qw( ---- ---- ---- ---- 5.18 5.20 5.22 ) ],
    postderef       => [ qw( ---- ---- ---- ---- ---- 5.20 5.22 ) ],
    re_strict       => [ qw( ---- ---- ---- ---- ---- ---- 5.22 ) ],
    refaliasing     => [ qw( ---- ---- ---- ---- ---- ---- 5.22 ) ],
@@ -107,8 +107,7 @@ sub import {
       $version = $actual_perl_version;
    }
    if ( $version =~ /^5[.](1[13579]|2[13])$/ismx ) {
-      my $current_main_version = $1 - 1;
-      $version = "5.$current_main_version";
+      confess "Developers version ($version) not supports\n";
    }
    if ( $version =~ /^5[.](1[02468]|2[02])$/ismx ) {
       $use_perl_version = "5.0$1";
@@ -153,7 +152,7 @@ sub import {
    my $flag;
    foreach my $delete ( @delete_features_or_warnings ) {
       $flag = 0;
-      $delete =~ s/^[-](.+)/$1/smx;
+      $delete =~ s/^[-+](.+)/$1/smx;
       if ( exists $FEATURES{$delete} ) {
          $flag = 1;
          if ( $FEATURES{$delete}->[$version_idx] ne '----' ) {
@@ -207,7 +206,7 @@ Perl::Modern::Perl - Loads all features of the current used version of Perl.
 
 =head1 VERSION
 
-This document describes Perl::Modern::Perl version 1.004.
+This document describes Perl::Modern::Perl version 1.005.
 
 
 =head1 SYNOPSIS
@@ -216,7 +215,7 @@ This document describes Perl::Modern::Perl version 1.004.
    or
    use Perl::Modern:Perl qw{5.20};
    or
-   use Perl::Modern::Perl qw{5.18 -switch}
+   use Perl::Modern::Perl qw{5.20 -switch +smartmatch lexical_subs}
 
 
 =head1 DESCRIPTION
@@ -224,8 +223,9 @@ This document describes Perl::Modern::Perl version 1.004.
 Loads all features of the current version of Perl used or the specified version
 of Perl. The corresponding warnings are deactivated.
 If a version of Perl specified, this must be less than or equal to the
-installed. Should one or more features can not be activated this be specified
-after the version (the minus sign is optional).
+installed. Should one or more features not be activated or warning can be
+switched on this will be given after the version (the minus or plus sign is
+optional).
 
 
 =head1 INTERFACE
@@ -248,6 +248,10 @@ Called automatically when you leave the name space.
 =head2 Version '5.xx' not detected
 
 The version of the installed PERL could not be determined.
+
+=head2 Developers version (5.xx) not supports
+
+Development versions are not supported.
 
 =head2 Version (5.xx) not supports
 
@@ -299,8 +303,8 @@ The following pragmas and modules are required:
 =head1 INCOMPATIBILITIES
 
 The module works with Perl version 5.12, 5.14, 5.16, 5.18, 5.20 and 5.22.
-Developers Perl versions are not supported. It state is toggled to the previous
-major version.
+Developers Perl versions are not supported.
+
 
 =head1 BUGS AND LIMITATIONS
 

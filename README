@@ -1,11 +1,11 @@
-Perl-Modern-Perl version 1.002
+Perl-Modern-Perl version 1.005
 
 Loads all features of the current version of Perl used or the specified version
 of Perl. The corresponding warnings are deactivated.
 If a version of Perl specified, this must be less than or equal to the
-installed. Should one or more features can not be activated this be specified
-after the version (the minus sign is optional).
-
+installed. Should one or more features not be activated or warning can be
+switched on this will be given after the version (the minus or plus sign is
+optional).
 
 INSTALLATION
 
@@ -40,8 +40,7 @@ The following pragmas and modules are required:
 INCOMPATIBILITIES
 
 The module works with Perl version 5.12, 5.14, 5.16, 5.18, 5.20 and 5.22.
-Developers Perl versions are not supported. It state is toggled to the previous
-major version.
+Developers Perl versions are not supported.
 
 
 COPYRIGHT AND LICENCE
