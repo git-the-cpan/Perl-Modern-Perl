@@ -1,4 +1,5 @@
 Revision history for Perl-Modern-Perl
+================================================================================
 
 1.000  Mon 14.Dez.2015 - 20:15
        Initial CPAN release.
@@ -10,3 +11,6 @@ Revision history for Perl-Modern-Perl
 
 1.003  Fri 18.Dez.2015 - 19:00
        Changed determine the current version of Perl.
+
+1.004  Sam 19.Dez.2015 - 15:00
+       Correcting the discharge of warnings.

@@ -2,8 +2,8 @@
 # # Script     : Perl::Modern::Perl                                            #
 # # -------------------------------------------------------------------------- #
 # # Copyright  : Frei unter GNU General Public License  bzw.  Artistic License #
-# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.003 #
-# # Version    : 1.003                                             18.Dez.2015 #
+# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.004 #
+# # Version    : 1.004                                             19.Dez.2015 #
 # # -------------------------------------------------------------------------- #
 # # Function   : Lädt alle Features der aktuellen benutzten Perl-Version.      #
 # # -------------------------------------------------------------------------- #
@@ -19,11 +19,11 @@
 # #              Perl::Version                          ActivePerl-REPO-Module #
 # ##############################################################################
 
-package Perl::Modern::Perl 1.003;
+package Perl::Modern::Perl 1.004;
 
 # ##############################################################################
 
-use 5.010;
+use 5.012;
 
 use feature ();
 use mro     ();
@@ -74,7 +74,7 @@ our %WARNINGS = (
    refaliasing     => [ qw( ---- ---- ---- ---- ---- ---- 5.22 ) ],
    regex_sets      => [ qw( ---- ---- ---- ---- 5.18 5.20 5.22 ) ],
    signatures      => [ qw( ---- ---- ---- ---- ---- 5.20 5.22 ) ],
-   smartmatch      => [ qw( 5.10 5.12 5.14 5.16 5.18 5.20 5.22 ) ],
+   smartmatch      => [ qw( ---- ---- ---- ---- 5.18 5.20 5.22 ) ],
 );
 
 # ##############################################################################
@@ -105,6 +105,10 @@ sub import {
    # --- Versions-String pruefen und Feature-Tag bilden ------------------------
    if ( not $version ) {
       $version = $actual_perl_version;
+   }
+   if ( $version =~ /^5[.](1[13579]|2[13])$/ismx ) {
+      my $current_main_version = $1 - 1;
+      $version = "5.$current_main_version";
    }
    if ( $version =~ /^5[.](1[02468]|2[02])$/ismx ) {
       $use_perl_version = "5.0$1";
@@ -203,7 +207,7 @@ Perl::Modern::Perl - Loads all features of the current used version of Perl.
 
 =head1 VERSION
 
-This document describes Perl::Modern::Perl version 1.003
+This document describes Perl::Modern::Perl version 1.004.
 
 
 =head1 SYNOPSIS
@@ -294,9 +298,9 @@ The following pragmas and modules are required:
 
 =head1 INCOMPATIBILITIES
 
-The module works with Perl version 5.10, 5.12, 5.14, 5.16, 5.18, 5.20 and 5.22.
-Development versions of PERL are not supported.
-
+The module works with Perl version 5.12, 5.14, 5.16, 5.18, 5.20 and 5.22.
+Developers Perl versions are not supported. It state is toggled to the previous
+major version.
 
 =head1 BUGS AND LIMITATIONS
 
