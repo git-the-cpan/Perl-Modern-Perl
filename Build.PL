@@ -8,6 +8,7 @@ my $builder = Module::Build->new(
     dist_author         => 'Juergen von Brietzke <juergen.von.brietzke@t-online.de>',
     dist_version_from   => 'lib/Perl/Modern/Perl.pm',
     requires => {
+        'perl'          => 5.012000,
         'Carp'          => 0,
         'English'       => 0,
         'Perl::Version' => 0,

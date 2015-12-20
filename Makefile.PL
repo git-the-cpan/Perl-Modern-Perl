@@ -1,5 +1,6 @@
 use strict;
 use warnings;
+
 use ExtUtils::MakeMaker;
 
 WriteMakefile(
@@ -8,6 +9,7 @@ WriteMakefile(
     VERSION_FROM        => 'lib/Perl/Modern/Perl.pm',
     ABSTRACT_FROM       => 'lib/Perl/Modern/Perl.pm',
     PL_FILES            => {},
+    MIN_PERL_VERSION    => '5.012000',
     PREREQ_PM => {
         'Carp'          => 0,
         'English'       => 0,

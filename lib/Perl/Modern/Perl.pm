@@ -2,8 +2,8 @@
 # # Script     : Perl::Modern::Perl                                            #
 # # -------------------------------------------------------------------------- #
 # # Copyright  : Frei unter GNU General Public License  bzw.  Artistic License #
-# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.005 #
-# # Version    : 1.005                                             19.Dez.2015 #
+# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.006 #
+# # Version    : 1.006                                             20.Dez.2015 #
 # # -------------------------------------------------------------------------- #
 # # Function   : Lädt alle Features der aktuellen benutzten Perl-Version.      #
 # # -------------------------------------------------------------------------- #
@@ -19,7 +19,7 @@
 # #              Perl::Version                          ActivePerl-REPO-Module #
 # ##############################################################################
 
-package Perl::Modern::Perl 1.005;
+package Perl::Modern::Perl 1.006;
 
 # ##############################################################################
 
@@ -106,7 +106,7 @@ sub import {
    if ( not $version ) {
       $version = $actual_perl_version;
    }
-   if ( $version =~ /^5[.](1[13579]|2[13])$/ismx ) {
+   if ( $version =~ /^5[.](?:1[13579]|2[13])$/ismx ) {
       confess "Developers version ($version) not supports\n";
    }
    if ( $version =~ /^5[.](1[02468]|2[02])$/ismx ) {
@@ -206,7 +206,7 @@ Perl::Modern::Perl - Loads all features of the current used version of Perl.
 
 =head1 VERSION
 
-This document describes Perl::Modern::Perl version 1.005.
+This document describes Perl::Modern::Perl version 1.006.
 
 
 =head1 SYNOPSIS

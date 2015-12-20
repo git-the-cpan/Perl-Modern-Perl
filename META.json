@@ -34,6 +34,7 @@
             "Test::More" : "0",
             "feature" : "0",
             "mro" : "0",
+            "perl" : "5.012",
             "strict" : "0",
             "version" : "0",
             "warnings" : "0"
@@ -43,10 +44,10 @@
    "provides" : {
       "Perl::Modern::Perl" : {
          "file" : "lib/Perl/Modern/Perl.pm",
-         "version" : "1.005"
+         "version" : "1.006"
       }
    },
    "release_status" : "stable",
-   "version" : "1.005",
+   "version" : "1.006",
    "x_serialization_backend" : "JSON::PP version 2.27300"
 }

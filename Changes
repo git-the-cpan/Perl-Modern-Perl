@@ -6,7 +6,7 @@ Revision history for Perl-Modern-Perl
 
 1.002  Don 17.Dez.2015 - 20:30
        Correction of the make-Scripts
-       Makefile.P
+       Makefile.PL
        Build.PL
 
 1.003  Fri 18.Dez.2015 - 19:00
@@ -17,3 +17,8 @@ Revision history for Perl-Modern-Perl
 
 1.005  Sam 19.Dez.2015 - 20:26
        Error message for developer version of Perl added.
+
+1.006  Son 20.Dez.2015 - 14:00
+       Minimum version of Perl in
+       Makefile.PL
+       Build.PL
