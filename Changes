@@ -22,3 +22,7 @@ Revision history for Perl-Modern-Perl
        Minimum version of Perl in
        Makefile.PL
        Build.PL
+
+1.007  Mon 21.Dez.2015 - 18:00
+       Exclusion from development version of Perl in Makefile.PL and Build.PL shifted.
+       (SREZIC : #110394: About not supporting bleadperl)

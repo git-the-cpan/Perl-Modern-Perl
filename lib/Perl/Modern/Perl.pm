@@ -2,8 +2,8 @@
 # # Script     : Perl::Modern::Perl                                            #
 # # -------------------------------------------------------------------------- #
 # # Copyright  : Frei unter GNU General Public License  bzw.  Artistic License #
-# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.006 #
-# # Version    : 1.006                                             20.Dez.2015 #
+# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.007 #
+# # Version    : 1.007                                             21.Dez.2015 #
 # # -------------------------------------------------------------------------- #
 # # Function   : Lädt alle Features der aktuellen benutzten Perl-Version.      #
 # # -------------------------------------------------------------------------- #
@@ -19,7 +19,7 @@
 # #              Perl::Version                          ActivePerl-REPO-Module #
 # ##############################################################################
 
-package Perl::Modern::Perl 1.006;
+package Perl::Modern::Perl 1.007;
 
 # ##############################################################################
 
@@ -105,9 +105,6 @@ sub import {
    # --- Versions-String pruefen und Feature-Tag bilden ------------------------
    if ( not $version ) {
       $version = $actual_perl_version;
-   }
-   if ( $version =~ /^5[.](?:1[13579]|2[13])$/ismx ) {
-      confess "Developers version ($version) not supports\n";
    }
    if ( $version =~ /^5[.](1[02468]|2[02])$/ismx ) {
       $use_perl_version = "5.0$1";
@@ -206,7 +203,7 @@ Perl::Modern::Perl - Loads all features of the current used version of Perl.
 
 =head1 VERSION
 
-This document describes Perl::Modern::Perl version 1.006.
+This document describes Perl::Modern::Perl version 1.007.
 
 
 =head1 SYNOPSIS
@@ -248,10 +245,6 @@ Called automatically when you leave the name space.
 =head2 Version '5.xx' not detected
 
 The version of the installed PERL could not be determined.
-
-=head2 Developers version (5.xx) not supports
-
-Development versions are not supported.
 
 =head2 Version (5.xx) not supports
 
