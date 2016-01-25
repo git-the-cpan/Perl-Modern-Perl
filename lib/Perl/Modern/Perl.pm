@@ -2,8 +2,8 @@
 # # Script     : Perl::Modern::Perl                                            #
 # # -------------------------------------------------------------------------- #
 # # Copyright  : Frei unter GNU General Public License  bzw.  Artistic License #
-# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.007 #
-# # Version    : 1.007                                             21.Dez.2015 #
+# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.010 #
+# # Version    : 1.010                                             25.Jan.2016 #
 # # -------------------------------------------------------------------------- #
 # # Function   : Lädt alle Features der aktuellen benutzten Perl-Version.      #
 # # -------------------------------------------------------------------------- #
@@ -15,11 +15,14 @@
 # # -------------------------------------------------------------------------- #
 # # Module     : Carp                                   ActivePerl-CORE-Module #
 # #              English                                                       #
+# #              Exporter                                                      #
+# #              IO::File                                                      #
+# #              IO::Handle                                                    #
 # #              ------------------------------------------------------------- #
 # #              Perl::Version                          ActivePerl-REPO-Module #
 # ##############################################################################
 
-package Perl::Modern::Perl 1.007;
+package Perl::Modern::Perl 1.010;
 
 # ##############################################################################
 
@@ -33,6 +36,9 @@ use warnings;
 
 use Carp;
 use English qw{-no_match_vars};
+use Exporter;
+use IO::File;
+use IO::Handle;
 use Perl::Version;
 
 # ##############################################################################
@@ -44,37 +50,39 @@ use Perl::Version;
 # ##############################################################################
 
 our %FEATURES = (
+
 # ------ Perl-Version ----- 5.10 5.12 5.14 5.16 5.18 5.20 5.22 -----------------
-   array_base      => [ qw( 5.10 5.12 5.14 ++++ ++++ ++++ ++++ ) ],
-   bitwise         => [ qw( ---- ---- ---- ---- ---- ---- ++++ ) ],
-   current_sub     => [ qw( ---- ---- ---- 5.16 5.18 5.20 5.22 ) ],
-   evalbytes       => [ qw( ---- ---- ---- 5.16 5.18 5.20 5.22 ) ],
-   fc              => [ qw( ---- ---- ---- 5.16 5.18 5.20 5.22 ) ],
-   lexical_subs    => [ qw( ---- ---- ---- ---- ++++ ++++ ++++ ) ],
-   postderef       => [ qw( ---- ---- ---- ---- ---- ++++ ++++ ) ],
-   postderef_qq    => [ qw( ---- ---- ---- ---- ---- ++++ ++++ ) ],
-   refaliasing     => [ qw( ---- ---- ---- ---- ---- ---- ++++ ) ],
-   say             => [ qw( 5.10 5.12 5.14 5.16 5.18 5.20 5.22 ) ],
-   signatures      => [ qw( ---- ---- ---- ---- ---- ++++ ++++ ) ],
-   state           => [ qw( 5.10 5.12 5.14 5.16 5.18 5.20 5.22 ) ],
-   switch          => [ qw( 5.10 5.12 5.14 5.16 5.18 5.20 5.22 ) ],
-   unicode_eval    => [ qw( ---- ---- ---- 5.16 5.18 5.20 5.22 ) ],
-   unicode_strings => [ qw( ---- 5.12 5.14 5.16 5.18 5.20 5.22 ) ],
+   array_base      => [qw( 5.10 5.12 5.14 ++++ ++++ ++++ ++++ )],
+   bitwise         => [qw( ---- ---- ---- ---- ---- ---- ++++ )],
+   current_sub     => [qw( ---- ---- ---- 5.16 5.18 5.20 5.22 )],
+   evalbytes       => [qw( ---- ---- ---- 5.16 5.18 5.20 5.22 )],
+   fc              => [qw( ---- ---- ---- 5.16 5.18 5.20 5.22 )],
+   lexical_subs    => [qw( ---- ---- ---- ---- ++++ ++++ ++++ )],
+   postderef       => [qw( ---- ---- ---- ---- ---- ++++ ++++ )],
+   postderef_qq    => [qw( ---- ---- ---- ---- ---- ++++ ++++ )],
+   refaliasing     => [qw( ---- ---- ---- ---- ---- ---- ++++ )],
+   say             => [qw( 5.10 5.12 5.14 5.16 5.18 5.20 5.22 )],
+   signatures      => [qw( ---- ---- ---- ---- ---- ++++ ++++ )],
+   state           => [qw( 5.10 5.12 5.14 5.16 5.18 5.20 5.22 )],
+   switch          => [qw( 5.10 5.12 5.14 5.16 5.18 5.20 5.22 )],
+   unicode_eval    => [qw( ---- ---- ---- 5.16 5.18 5.20 5.22 )],
+   unicode_strings => [qw( ---- 5.12 5.14 5.16 5.18 5.20 5.22 )],
 );
 
 our %WARNINGS = (
+
 # ----- Perl-Version ------ 5.10 5.12 5.14 5.16 5.18 5.20 5.22 -----------------
-   autoderef       => [ qw( ---- ---- ---- ---- ---- 5.20 5.22 ) ],
-   bitwise         => [ qw( ---- ---- ---- ---- ---- ---- 5.22 ) ],
-   const_attr      => [ qw( ---- ---- ---- ---- ---- ---- 5.22 ) ],
-   lexical_subs    => [ qw( ---- ---- ---- ---- 5.18 5.20 5.22 ) ],
-   lexical_topic   => [ qw( ---- ---- ---- ---- 5.18 5.20 5.22 ) ],
-   postderef       => [ qw( ---- ---- ---- ---- ---- 5.20 5.22 ) ],
-   re_strict       => [ qw( ---- ---- ---- ---- ---- ---- 5.22 ) ],
-   refaliasing     => [ qw( ---- ---- ---- ---- ---- ---- 5.22 ) ],
-   regex_sets      => [ qw( ---- ---- ---- ---- 5.18 5.20 5.22 ) ],
-   signatures      => [ qw( ---- ---- ---- ---- ---- 5.20 5.22 ) ],
-   smartmatch      => [ qw( ---- ---- ---- ---- 5.18 5.20 5.22 ) ],
+   autoderef     => [qw( ---- ---- ---- ---- ---- 5.20 5.22 )],
+   bitwise       => [qw( ---- ---- ---- ---- ---- ---- 5.22 )],
+   const_attr    => [qw( ---- ---- ---- ---- ---- ---- 5.22 )],
+   lexical_subs  => [qw( ---- ---- ---- ---- 5.18 5.20 5.22 )],
+   lexical_topic => [qw( ---- ---- ---- ---- 5.18 5.20 5.22 )],
+   postderef     => [qw( ---- ---- ---- ---- ---- 5.20 5.22 )],
+   re_strict     => [qw( ---- ---- ---- ---- ---- ---- 5.22 )],
+   refaliasing   => [qw( ---- ---- ---- ---- ---- ---- 5.22 )],
+   regex_sets    => [qw( ---- ---- ---- ---- 5.18 5.20 5.22 )],
+   signatures    => [qw( ---- ---- ---- ---- ---- 5.20 5.22 )],
+   smartmatch    => [qw( ---- ---- ---- ---- 5.18 5.20 5.22 )],
 );
 
 # ##############################################################################
@@ -89,9 +97,13 @@ our %WARNINGS = (
 
 sub import {
 
-   my ( $class, $version, @delete_features_or_warnings ) = @ARG;
+   my ( $class, $version, @extra_parameters ) = @ARG;
 
    my ( $actual_perl_version, $use_perl_version, $version_tag, $version_idx );
+
+   # --- Steuerung fuer 'English' entfernen wenn vorhanden ---------------------
+   my $english_parameter = grep {/^(?:[+]?)match_vars$/smx} @extra_parameters;
+   @extra_parameters = grep { not /^(?:[+]?)match_vars$/smx } @extra_parameters;
 
    # --- Aktuelle PERL-Version bestimmen und Feature-Tag bilden ----------------
    if ( $PERL_VERSION =~ /^v5[.](\d\d).+$/smx ) {
@@ -124,45 +136,57 @@ sub import {
 
    # --- PERL-Version aktivieren und Features importieren ----------------------
    my $use = "use qw{$use_perl_version}";
-   eval { $use } or confess "Can't execute '$use'\n";
+   eval {$use} or confess "Can't execute '$use'\n";
    warnings->import;
    strict->import;
    version->import;
-   feature->import( $version_tag );
+   feature->import($version_tag);
    mro::set_mro( scalar caller(), 'c3' );
 
-   # --- Zusatz-Features importieren -------------------------------------------
-   foreach my $feature ( keys %FEATURES ) {
-      if ( $FEATURES{$feature}->[$version_idx] eq '++++' ) {
-         feature->import($feature);
+   # --- English-Variablen importieren -----------------------------------------
+   local $Exporter::ExportLevel = 1;
+   if ($english_parameter) {
+      *English::EXPORT = \@English::COMPLETE_EXPORT;
+      eval qq{
+         *English::MATCH     = *&;
+         *English::PREMATCH  = *`;
+         *English::POSTMATCH = *';
+         1;
+      }
+      or do {
+         confess("Can't create English match variablen\n");
       }
    }
+   else {
+      *English::EXPORT = \@English::MINIMAL_EXPORT;
+   }
+   Exporter::import('English');
 
    # --- Warnmeldung fuer importierte Features ausschalten ---------------------
    foreach my $warning ( keys %WARNINGS ) {
       if ( $WARNINGS{$warning}->[$version_idx] ne '----' ) {
-         warnings->unimport( "experimental::$warning" );
+         warnings->unimport("experimental::$warning");
       }
    }
 
    # --- Einzelne Features entfernen / einzelne Warnungen einschalten ----------
    my $flag;
-   foreach my $delete ( @delete_features_or_warnings ) {
+   foreach my $delete (@extra_parameters) {
       $flag = 0;
-      $delete =~ s/^[-+](.+)/$1/smx;
+      $delete =~ s/^(?:[-+]?)(.+)/$1/smx;
       if ( exists $FEATURES{$delete} ) {
          $flag = 1;
          if ( $FEATURES{$delete}->[$version_idx] ne '----' ) {
             feature->unimport($delete);
          }
          else {
-            confess "Feature '$delete' in version '$version' not available\n"
+            confess "Feature '$delete' in version '$version' not available\n";
          }
       }
       if ( exists $WARNINGS{$delete} ) {
          $flag = 1;
          if ( $WARNINGS{$delete}->[$version_idx] ne '----' ) {
-            warnings->import( "experimental::$delete" );
+            warnings->import("experimental::$delete");
          }
       }
       if ( not $flag ) {
@@ -172,7 +196,7 @@ sub import {
 
    return;
 
-}
+} ## end of sub import
 
 # ##############################################################################
 # # Aufgabe   | Entfernt alle experimentellen Features einer Perl-Version.     #
@@ -188,7 +212,7 @@ sub unimport {
 
    return;
 
-}
+} ## end of sub unimport
 
 # ##############################################################################
 # #                                  E N D E                                   #
@@ -203,7 +227,7 @@ Perl::Modern::Perl - Loads all features of the current used version of Perl.
 
 =head1 VERSION
 
-This document describes Perl::Modern::Perl version 1.007.
+This document describes Perl::Modern::Perl version 1.010.
 
 
 =head1 SYNOPSIS
@@ -213,16 +237,30 @@ This document describes Perl::Modern::Perl version 1.007.
    use Perl::Modern:Perl qw{5.20};
    or
    use Perl::Modern::Perl qw{5.20 -switch +smartmatch lexical_subs}
+   or
+   use Perl::Modern::Perl qw{5.22 -switch +match_vars}
 
 
 =head1 DESCRIPTION
 
-Loads all features of the current version of Perl used or the specified version
-of Perl. The corresponding warnings are deactivated.
-If a version of Perl specified, this must be less than or equal to the
-installed. Should one or more features not be activated or warning can be
-switched on this will be given after the version (the minus or plus sign is
-optional).
+Loading all the features of the current Perl version installed, or the specified
+version of Perl. The corresponding warnings are deactivated. If a version of
+Perl is specified, this must be less than or equal to that is installed.
+
+Should one or more features not be activated or a warning will remain active,
+this may be given on the version (the minus or plus sign is optional).
+
+In addition, the pragma 'strict' and 'version' will be imported as well as the
+alternatives for the special variables (use English) transferred in the calling
+package. By default, the variables 'MATCH', 'PREMATCH' and 'POST MATCH' not
+accepted. However, these can be aktivieret by specifying '+match_vars'.
+
+The modules
+
+   IO :: File
+   IO :: Handle
+
+are precisely the case with imports.
 
 
 =head1 INTERFACE
@@ -266,6 +304,10 @@ he feature to be removed is not included in the selected version of Perl.
 
 The feature to be removed is unknown.
 
+=head2 Can't create English match variablen
+
+The import of the match variables failed
+
 
 =head1 CONFIGURATION AND ENVIRONMENT
 
@@ -286,6 +328,9 @@ The following pragmas and modules are required:
 
    - Carp
    - English
+   - Exporter
+   - IO::File
+   - IO::Handle
 
 
 =head2 CPAN or ActiveState Repository

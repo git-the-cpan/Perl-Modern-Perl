@@ -1,4 +1,4 @@
-Perl-Modern-Perl version 1.006
+Perl-Modern-Perl version 1.010
 
 Loads all features of the current version of Perl used or the specified version
 of Perl. The corresponding warnings are deactivated.
@@ -35,6 +35,9 @@ The following pragmas and modules are required:
    - warnings
    - Carp
    - English
+   - Exporter
+   - IO::File
+   - IO::Handle
    - Perl::Version
 
 INCOMPATIBILITIES

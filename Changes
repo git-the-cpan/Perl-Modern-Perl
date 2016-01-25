@@ -26,3 +26,6 @@ Revision history for Perl-Modern-Perl
 1.007  Mon 21.Dez.2015 - 18:00
        Exclusion from development version of Perl in Makefile.PL and Build.PL shifted.
        (SREZIC : #110394: About not supporting bleadperl)
+
+1.010  Mon 25.Jan.2016 - 16:00
+       Import of special variables (use English), IO::File and IO::Handle

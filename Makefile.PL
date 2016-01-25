@@ -15,6 +15,9 @@ else {
       PREREQ_PM => {
          'Carp'          => 0,
          'English'       => 0,
+         'Exporter'      => 0,
+         'IO::File'      => 0,
+         'IO::Handle'    => 0,
          'Perl::Version' => 0,
          'feature'       => 0,
          'mro'           => 0,
