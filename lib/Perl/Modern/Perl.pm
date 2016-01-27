@@ -2,8 +2,8 @@
 # # Script     : Perl::Modern::Perl                                            #
 # # -------------------------------------------------------------------------- #
 # # Copyright  : Frei unter GNU General Public License  bzw.  Artistic License #
-# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.012 #
-# # Version    : 1.012                                             27.Jan.2016 #
+# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.013 #
+# # Version    : 1.013                                             27.Jan.2016 #
 # # -------------------------------------------------------------------------- #
 # # Function   : Importiert alle Features einer vorgegeben oder der aktuellen  #
 # #              Perl-Version in den Namensraum des Aufrufers. Zusätzlich wer- #
@@ -25,7 +25,7 @@
 # #              Perl::Version                          ActivePerl-REPO-Module #
 # ##############################################################################
 
-package Perl::Modern::Perl 1.012;
+package Perl::Modern::Perl 1.013;
 
 # ##############################################################################
 
@@ -52,9 +52,9 @@ use Perl::Version;
 # # ----  <->  Feature ist in der Perl-Version nicht implementiert             #
 # ##############################################################################
 
-our %FEATURES = (
-
+## no tidy
 # ------ Perl-Version ----- 5.10 5.12 5.14 5.16 5.18 5.20 5.22 -----------------
+our %FEATURES = (
    array_base      => [qw( 5.10 5.12 5.14 ++++ ++++ ++++ ++++ )],
    bitwise         => [qw( ---- ---- ---- ---- ---- ---- ++++ )],
    current_sub     => [qw( ---- ---- ---- 5.16 5.18 5.20 5.22 )],
@@ -71,22 +71,19 @@ our %FEATURES = (
    unicode_eval    => [qw( ---- ---- ---- 5.16 5.18 5.20 5.22 )],
    unicode_strings => [qw( ---- 5.12 5.14 5.16 5.18 5.20 5.22 )],
 );
-
 our %WARNINGS = (
-
-# ----- Perl-Version ------ 5.10 5.12 5.14 5.16 5.18 5.20 5.22 -----------------
-   autoderef     => [qw( ---- ---- ---- ---- ---- 5.20 5.22 )],
-   bitwise       => [qw( ---- ---- ---- ---- ---- ---- 5.22 )],
-   const_attr    => [qw( ---- ---- ---- ---- ---- ---- 5.22 )],
-   lexical_subs  => [qw( ---- ---- ---- ---- 5.18 5.20 5.22 )],
-   lexical_topic => [qw( ---- ---- ---- ---- 5.18 5.20 5.22 )],
-   postderef     => [qw( ---- ---- ---- ---- ---- 5.20 5.22 )],
-   re_strict     => [qw( ---- ---- ---- ---- ---- ---- 5.22 )],
-   refaliasing   => [qw( ---- ---- ---- ---- ---- ---- 5.22 )],
-   regex_sets    => [qw( ---- ---- ---- ---- 5.18 5.20 5.22 )],
-   signatures    => [qw( ---- ---- ---- ---- ---- 5.20 5.22 )],
-   smartmatch    => [qw( ---- ---- ---- ---- 5.18 5.20 5.22 )],
-);
+   autoderef       => [qw( ---- ---- ---- ---- ---- 5.20 5.22 )],
+   bitwise         => [qw( ---- ---- ---- ---- ---- ---- 5.22 )],
+   const_attr      => [qw( ---- ---- ---- ---- ---- ---- 5.22 )],
+   lexical_subs    => [qw( ---- ---- ---- ---- 5.18 5.20 5.22 )],
+   lexical_topic   => [qw( ---- ---- ---- ---- 5.18 5.20 5.22 )],
+   postderef       => [qw( ---- ---- ---- ---- ---- 5.20 5.22 )],
+   re_strict       => [qw( ---- ---- ---- ---- ---- ---- 5.22 )],
+   refaliasing     => [qw( ---- ---- ---- ---- ---- ---- 5.22 )],
+   regex_sets      => [qw( ---- ---- ---- ---- 5.18 5.20 5.22 )],
+   signatures      => [qw( ---- ---- ---- ---- ---- 5.20 5.22 )],
+   smartmatch      => [qw( ---- ---- ---- ---- 5.18 5.20 5.22 )],
+);                                                                   ## use tidy
 
 # ##############################################################################
 # # Aufgabe   | Importiert alle Features einer vorgegeben oder der aktuellen   #
@@ -191,17 +188,13 @@ sub import {
 
    # --- English-Variablen importieren -----------------------------------------
    local $Exporter::ExportLevel = 1;
-   if ($english_parameter) {
+   if ($english_parameter) {                                          ## no tidy
       *English::EXPORT = \@English::COMPLETE_EXPORT;
-      eval q{
-         *English::MATCH     = *&;
-         *English::PREMATCH  = *`;
-         *English::POSTMATCH = *';
-         1;
-      }
-      or do {
-         confess("Can't create English match variablen\n");
-      }
+      my $match_vars = q{*English::MATCH     = *&;}
+                     . q{*English::PREMATCH  = *`;}
+                     . q{*English::POSTMATCH = *';}
+                     . q{1;};                                        ## use tidy
+      eval {$match_vars} or confess("Can't create English match variablen\n");
    }
    else {
       *English::EXPORT = \@English::MINIMAL_EXPORT;
@@ -236,12 +229,14 @@ __END__
 
 =head1 NAME
 
-Perl::Modern::Perl - Loads all features of the current used version of Perl.
+Perl::Modern::Perl - Loading pragmas 'strict', 'version', 'warnings' and
+'features' (with all features of current used version of Perl) and Modules
+'English', 'IO::File' and 'IO::Handle'.
 
 
 =head1 VERSION
 
-This document describes Perl::Modern::Perl version 1.012.
+This document describes Perl::Modern::Perl version 1.013.
 
 
 =head1 SYNOPSIS
@@ -371,7 +366,7 @@ L<http://rt.cpan.org>.
 
 =head1 AUTHOR
 
-Juergen von Brietzke  C<< <juergen.von.brietzke@t-online.de> >>
+Juergen von Brietzke - JVBSOFT  C<< <juergen.von.brietzke@t-online.de> >>
 
 
 =head1 LICENCE AND COPYRIGHT
@@ -381,7 +376,8 @@ Juergen von Brietzke C<< <juergen.von.brietzke@t-online.de> >>.
 All rights reserved.
 
 This module is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself. See L<perlartistic>.
+modify it under the same terms as Perl itself.
+See L<http://dev.perl.org/licenses/artistic.html>.
 
 
 =head1 DISCLAIMER OF WARRANTY

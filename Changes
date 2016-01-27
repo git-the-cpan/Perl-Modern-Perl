@@ -24,7 +24,8 @@ Revision history for Perl-Modern-Perl
        Build.PL
 
 1.007  Mon 21.Dez.2015 - 18:00
-       Exclusion from development version of Perl in Makefile.PL and Build.PL shifted.
+       Exclusion from development version of Perl in Makefile.PL and Build.PL
+       shifted.
        (SREZIC : #110394: About not supporting bleadperl)
 
 1.010  Mon 25.Jan.2016 - 16:00
@@ -35,3 +36,7 @@ Revision history for Perl-Modern-Perl
 
 1.012  Mit 27.Jan.2016 - 15:00
        Version number must no longer come first
+
+1.013  Mit 27.Jan.2016 - 17:21
+       Code now corresponds to the Perl Best Practice and Perltidy rules -
+       defined by JVBSOFT and KV Berlin

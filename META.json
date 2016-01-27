@@ -1,10 +1,10 @@
 {
-   "abstract" : "Loads all features of the current used version of Perl.",
+   "abstract" : "Loading pragmas 'strict', 'version', 'warnings' and",
    "author" : [
       "Juergen von Brietzke <juergen.von.brietzke@t-online.de>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.4214",
+   "generated_by" : "Module::Build version 0.4216",
    "license" : [
       "artistic_2"
    ],
@@ -46,10 +46,10 @@
    "provides" : {
       "Perl::Modern::Perl" : {
          "file" : "lib/Perl/Modern/Perl.pm",
-         "version" : "1.012"
+         "version" : "1.013"
       }
    },
    "release_status" : "stable",
-   "version" : "1.012",
+   "version" : "1.013",
    "x_serialization_backend" : "JSON::PP version 2.27300"
 }
