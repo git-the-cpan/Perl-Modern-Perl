@@ -1,4 +1,4 @@
-Perl-Modern-Perl version 1.010
+Perl-Modern-Perl version 1.011
 
 Loads all features of the current version of Perl used or the specified version
 of Perl. The corresponding warnings are deactivated.

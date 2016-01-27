@@ -29,3 +29,6 @@ Revision history for Perl-Modern-Perl
 
 1.010  Mon 25.Jan.2016 - 16:00
        Import of special variables (use English), IO::File and IO::Handle
+
+1.011  Mit 27.Jan.2016 - 12:00
+       Small fixes when importing the features

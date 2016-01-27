@@ -2,10 +2,13 @@
 # # Script     : Perl::Modern::Perl                                            #
 # # -------------------------------------------------------------------------- #
 # # Copyright  : Frei unter GNU General Public License  bzw.  Artistic License #
-# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.010 #
-# # Version    : 1.010                                             25.Jan.2016 #
+# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.011 #
+# # Version    : 1.011                                             27.Jan.2016 #
 # # -------------------------------------------------------------------------- #
-# # Function   : Lädt alle Features der aktuellen benutzten Perl-Version.      #
+# # Function   : Importiert alle Features einer vorgegeben oder der aktuellen  #
+# #              Perl-Version in den Namensraum des Aufrufers. Zusätzlich wer- #
+# #              den die Pragmas 'strict', 'version' und 'warnings' und die    #
+# #              die Module 'English', 'IO::File' und 'IO::Handle' importiert. #
 # # -------------------------------------------------------------------------- #
 # # Language   : PERL 5                                (V) 5.12.xx  -  5.22.xx #
 # # Coding     : ISO 8859-15 / Latin-9                         UNIX-Zeilenende #
@@ -22,7 +25,7 @@
 # #              Perl::Version                          ActivePerl-REPO-Module #
 # ##############################################################################
 
-package Perl::Modern::Perl 1.010;
+package Perl::Modern::Perl 1.011;
 
 # ##############################################################################
 
@@ -86,7 +89,9 @@ our %WARNINGS = (
 );
 
 # ##############################################################################
-# # Aufgabe   | Importiert die experimentellen Features einer Perl-Version.    #
+# # Aufgabe   | Importiert alle Features einer vorgegeben oder der aktuellen   #
+# #           | Perl-Version sowie die Pragmas 'strict' und 'warnings' und     #
+# #           | die Module 'English', 'IO::File' und 'IO::Handle'.             #
 # # ----------+ -------------------------------------------------------------- #
 # # Aufruf    | use Perl::Features qw( [ 5.22 [ say [ -state ... ] ] ] );      #
 # #           | -------------------------------------------------------------- #
@@ -105,7 +110,7 @@ sub import {
    my $english_parameter = grep {/^(?:[+]?)match_vars$/smx} @extra_parameters;
    @extra_parameters = grep { not /^(?:[+]?)match_vars$/smx } @extra_parameters;
 
-   # --- Aktuelle PERL-Version bestimmen und Feature-Tag bilden ----------------
+   # --- Aktuelle PERL-Version bestimmen ---------------------------------------
    if ( $PERL_VERSION =~ /^v5[.](\d\d).+$/smx ) {
       $actual_perl_version = "5.$1";
       $use_perl_version    = "5.0$1";
@@ -143,24 +148,12 @@ sub import {
    feature->import($version_tag);
    mro::set_mro( scalar caller(), 'c3' );
 
-   # --- English-Variablen importieren -----------------------------------------
-   local $Exporter::ExportLevel = 1;
-   if ($english_parameter) {
-      *English::EXPORT = \@English::COMPLETE_EXPORT;
-      eval qq{
-         *English::MATCH     = *&;
-         *English::PREMATCH  = *`;
-         *English::POSTMATCH = *';
-         1;
-      }
-      or do {
-         confess("Can't create English match variablen\n");
+   # --- Zusatz-Features importieren -------------------------------------------
+   foreach my $feature ( keys %FEATURES ) {
+      if ( $FEATURES{$feature}->[$version_idx] eq '++++' ) {
+         feature->import($feature);
       }
    }
-   else {
-      *English::EXPORT = \@English::MINIMAL_EXPORT;
-   }
-   Exporter::import('English');
 
    # --- Warnmeldung fuer importierte Features ausschalten ---------------------
    foreach my $warning ( keys %WARNINGS ) {
@@ -193,6 +186,25 @@ sub import {
          confess "Unknown feature/warning for delete '$delete'\n";
       }
    }
+
+   # --- English-Variablen importieren -----------------------------------------
+   local $Exporter::ExportLevel = 1;
+   if ($english_parameter) {
+      *English::EXPORT = \@English::COMPLETE_EXPORT;
+      eval q{
+         *English::MATCH     = *&;
+         *English::PREMATCH  = *`;
+         *English::POSTMATCH = *';
+         1;
+      }
+      or do {
+         confess("Can't create English match variablen\n");
+      }
+   }
+   else {
+      *English::EXPORT = \@English::MINIMAL_EXPORT;
+   }
+   Exporter::import('English');
 
    return;
 
@@ -227,7 +239,7 @@ Perl::Modern::Perl - Loads all features of the current used version of Perl.
 
 =head1 VERSION
 
-This document describes Perl::Modern::Perl version 1.010.
+This document describes Perl::Modern::Perl version 1.011.
 
 
 =head1 SYNOPSIS
@@ -236,7 +248,7 @@ This document describes Perl::Modern::Perl version 1.010.
    or
    use Perl::Modern:Perl qw{5.20};
    or
-   use Perl::Modern::Perl qw{5.20 -switch +smartmatch lexical_subs}
+   use Perl::Modern::Perl qw{5.20 -switch lexical_subs}
    or
    use Perl::Modern::Perl qw{5.22 -switch +match_vars}
 
