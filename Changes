@@ -32,3 +32,6 @@ Revision history for Perl-Modern-Perl
 
 1.011  Mit 27.Jan.2016 - 12:00
        Small fixes when importing the features
+
+1.012  Mit 27.Jan.2016 - 15:00
+       Version number must no longer come first

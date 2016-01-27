@@ -46,10 +46,10 @@
    "provides" : {
       "Perl::Modern::Perl" : {
          "file" : "lib/Perl/Modern/Perl.pm",
-         "version" : "1.011"
+         "version" : "1.012"
       }
    },
    "release_status" : "stable",
-   "version" : "1.011",
+   "version" : "1.012",
    "x_serialization_backend" : "JSON::PP version 2.27300"
 }

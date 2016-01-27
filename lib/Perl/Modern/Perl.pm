@@ -2,8 +2,8 @@
 # # Script     : Perl::Modern::Perl                                            #
 # # -------------------------------------------------------------------------- #
 # # Copyright  : Frei unter GNU General Public License  bzw.  Artistic License #
-# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.011 #
-# # Version    : 1.011                                             27.Jan.2016 #
+# # Authors    : JVBSOFT - Jürgen von Brietzke                   0.001 - 1.012 #
+# # Version    : 1.012                                             27.Jan.2016 #
 # # -------------------------------------------------------------------------- #
 # # Function   : Importiert alle Features einer vorgegeben oder der aktuellen  #
 # #              Perl-Version in den Namensraum des Aufrufers. Zusätzlich wer- #
@@ -25,7 +25,7 @@
 # #              Perl::Version                          ActivePerl-REPO-Module #
 # ##############################################################################
 
-package Perl::Modern::Perl 1.011;
+package Perl::Modern::Perl 1.012;
 
 # ##############################################################################
 
@@ -102,11 +102,15 @@ our %WARNINGS = (
 
 sub import {
 
-   my ( $class, $version, @extra_parameters ) = @ARG;
+   my ( $class, @extra_parameters ) = @ARG;
 
    my ( $actual_perl_version, $use_perl_version, $version_tag, $version_idx );
 
-   # --- Steuerung fuer 'English' entfernen wenn vorhanden ---------------------
+   # --- Steuerung fuer 'Perl-Version' aus Parameter entfernen wenn vorhanden --
+   my @version = grep {/^\d[.]\d\d/smx} @extra_parameters;
+   @extra_parameters = grep { not /^\d[.]\d\d/smx } @extra_parameters;
+
+   # --- Steuerung fuer 'English' aus Parameter entfernen wenn vorhanden -------
    my $english_parameter = grep {/^(?:[+]?)match_vars$/smx} @extra_parameters;
    @extra_parameters = grep { not /^(?:[+]?)match_vars$/smx } @extra_parameters;
 
@@ -120,9 +124,7 @@ sub import {
    }
 
    # --- Versions-String pruefen und Feature-Tag bilden ------------------------
-   if ( not $version ) {
-      $version = $actual_perl_version;
-   }
+   my $version = $version[0] // $actual_perl_version;
    if ( $version =~ /^5[.](1[02468]|2[02])$/ismx ) {
       $use_perl_version = "5.0$1";
       $version_idx      = $1 / 2 - 5;
@@ -239,7 +241,7 @@ Perl::Modern::Perl - Loads all features of the current used version of Perl.
 
 =head1 VERSION
 
-This document describes Perl::Modern::Perl version 1.011.
+This document describes Perl::Modern::Perl version 1.012.
 
 
 =head1 SYNOPSIS
@@ -248,9 +250,11 @@ This document describes Perl::Modern::Perl version 1.011.
    or
    use Perl::Modern:Perl qw{5.20};
    or
-   use Perl::Modern::Perl qw{5.20 -switch lexical_subs}
+   use Perl::Modern::Perl qw{-switch lexical_subs}
    or
    use Perl::Modern::Perl qw{5.22 -switch +match_vars}
+   or
+   use Perl::Modern::Perl qw{-switch 5.14 + match_vars}
 
 
 =head1 DESCRIPTION
